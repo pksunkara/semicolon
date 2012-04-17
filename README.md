@@ -1,4 +1,4 @@
-# semicolon
+# semicolon;
 An esoteric language made up of only semicolons.
 
 **You can't escape the semicolon monster!**
@@ -20,19 +20,19 @@ Usage: semicolon [FILE]
 The following program consists semicolons, reversed semicolons, spaces and newlines which when ran
 
 ```
-;;;;⁏;;⁏;;;
-⁏ ;;;;;;⁏⁏;;⁏;⁏
-⁏ ;;;;;;⁏⁏;⁏⁏;;
-;;⁏⁏ ;;⁏ ;;;;;;⁏⁏;⁏⁏⁏⁏
-⁏ ;;;;;;⁏;;;;;
-⁏ ;;;;;;⁏⁏⁏;⁏⁏⁏
-⁏ ;;;;;;⁏⁏;⁏⁏⁏⁏
-;;⁏⁏ ;;;;;;⁏⁏
-⁏;;⁏ ;;;;;;⁏⁏;⁏⁏;;
-⁏ ;;;;;;⁏⁏;;⁏;;
-⁏ ;;;;;;⁏;;;;⁏
-⁏ ;;;;;;;⁏;⁏;
-⁏ ;;  ;
+;;;;⁏;;⁏;;;;
+⁏ ;;;;;;⁏⁏;;⁏;⁏;
+⁏ ;;;;;;⁏⁏;⁏⁏;;;
+;;⁏⁏ ;;⁏ ;;;;;;⁏⁏;⁏⁏⁏⁏;
+⁏ ;;;;;;⁏;;;;;;
+⁏ ;;;;;;⁏⁏⁏;⁏⁏⁏;
+⁏ ;;;;;;⁏⁏;⁏⁏⁏⁏;
+;;⁏⁏ ;;;;;;⁏⁏;
+⁏;;⁏ ;;;;;;⁏⁏;⁏⁏;;;
+⁏ ;;;;;;⁏⁏;;⁏;;;
+⁏ ;;;;;;⁏;;;;⁏;
+⁏ ;;;;;;;⁏;⁏;;
+⁏ ;;  ;;
 ```
 
 gives the following output
@@ -47,9 +47,9 @@ Hello world!
 
 The virtual machine on which programs run has a stack and a heap. The programmer is free to push arbitrary width integers onto the stack (only integers, currently there is no implementation of floating point or real numbers). The heap can also be accessed by the user as a permanent store of variables and data structures.
 
-Many commands require numbers or labels as parameters. Numbers can be any number of bits wide, and are simply represented as a series of `;` and `⁏`, terminated by a `\n`. `;` represents the binary digit 0, `⁏` represents 1. The sign of a number is given by its first character, `;` for positive and `⁏` for negative. Note that this is not twos complement, it just indicates a sign.
+Many commands require numbers or labels as parameters. Numbers can be any number of bits wide, and are simply represented as a series of `;` and `⁏`, terminated by a `;\n`. `;` represents the binary digit 0, `⁏` represents 1. The sign of a number is given by its first character, `;` for positive and `⁏` for negative. Note that this is not twos complement, it just indicates a sign.
 
-Labels are simply `\n` terminated lists of `;` and `⁏`. There is only one global namespace so all labels must be unique.
+Labels are simply `;\n` terminated lists of `;` and `⁏`. There is only one global namespace so all labels must be unique.
 
 ### Stack manipulation
 
