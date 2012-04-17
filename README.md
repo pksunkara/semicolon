@@ -1,5 +1,4 @@
 # semicolon
-
 An esoteric language made up of only semicolons.
 
 **You can't escape the semicolon monster!**
@@ -52,7 +51,7 @@ Many commands require numbers or labels as parameters. Numbers can be any number
 
 Labels are simply `\n` terminated lists of `;` and `⁏`. There is only one global namespace so all labels must be unique.
 
-### `;` Stack manipulation
+### Stack manipulation
 
 All stack manipulations start with `;` and followed by
 
@@ -61,9 +60,9 @@ All stack manipulations start with `;` and followed by
 * `⁏;` - Swap the top two items of the stack
 * `⁏⁏` - Discard the top item of the stack
 
-### `⁏` Arithematic operation
+### Arithmetic operation
 
-All arithematic operations start with `⁏` and followed by
+All arithmetic operations start with `⁏` and followed by
 
 * `;;` - Add the top two items and replace them with result
 * `;⁏` - Subtract the second item from first and replace with result
@@ -71,14 +70,14 @@ All arithematic operations start with `⁏` and followed by
 * `⁏⁏` - Divide the first item by the second and replace with result
 * `ss` - Module the first item by the second and replace with result
 
-### `;s` Heap access
+### Heap access
 
 All heap storage access start with `;s` and followed by
 
 * `;` - Store the first item into address of the second item
 * `⁏` - Retreive and push the value in the address of the top item
 
-### `⁏s` Input/Output
+### Input/Output
 
 All Input/Output operations start with `⁏s` and followed by
 
@@ -87,7 +86,7 @@ All Input/Output operations start with `⁏s` and followed by
 * `⁏;` - Read a character and place it in location given by the top item
 * `⁏⁏` - Read a number and place it in location given by the top item
 
-### `s` Flow control
+### Flow control
 
 All flow controls start with `s` and followed by
 
@@ -98,8 +97,6 @@ All flow controls start with `s` and followed by
 * `⁏;` - Jump to a label if top item is zero (*param:* label)
 * `⁏⁏` - Jump to a label if top item is negative (*param:* label)
 * `s;` - Exit the program
-
-I also half-developed one other esoteric language imitating the genome sequence. You can check it [here](https://github.com/pksunkara/genome).
 
 If you like this project, please watch this and [follow](http://github.com/users/follow?target=pksunkara) me.
 
