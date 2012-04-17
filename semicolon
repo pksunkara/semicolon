@@ -1,0 +1,218 @@
+#!/usr/bin/env node
+
+var ops = {
+  ';;;': { code: 'push', arg: 'signed'},
+  ';;⁏': { code: 'dup' },
+  ';⁏;': { code: 'swap' },
+  ';⁏⁏': { code: 'discard' },
+  '⁏;;': { code: 'add' },
+  '⁏;⁏': { code: 'sub' },
+  '⁏⁏;': { code: 'mul' },
+  '⁏⁏⁏': { code: 'div' },
+  '⁏  ': { code: 'mod' },
+  '; ;': { code: 'store' },
+  '; ⁏': { code: 'retrieve' },
+  ' ;;': { code: 'label', arg: 'unsigned' },
+  ' ;⁏': { code: 'call', arg: 'unsigned' },
+  ' ; ': { code: 'ret' },
+  ' ⁏ ': { code: 'jump', arg: 'unsigned' },
+  ' ⁏;': { code: 'jz', arg: 'unsigned' },
+  ' ⁏⁏': { code: 'jn', arg: 'unsigned' },
+  '  ;': { code: 'exit' },
+  '⁏ ;;': { code: 'outchar' },
+  '⁏ ;⁏': { code: 'outnum' },
+  '⁏ ⁏;': { code: 'readchar' },
+  '⁏ ⁏⁏': { code: 'readnum' },
+};
+
+var code = null, tokens = [];
+
+var error = function (msg) {
+  console.log(msg);
+  process.exit(1);
+};
+
+var mkInt = function (str) {
+  var ret = '';
+  for (var i=0; i<str.length; i++) {
+    if (str[i] == ";") {
+      ret+= "0";
+    } else {
+      ret+= "1";
+    }
+  };
+  return parseInt(ret, 2);
+};
+
+var tokenize = function () {
+  var keys = Object.keys(ops);
+  for (var i=0; i<keys.length; i++) {
+    var key = keys[i];
+    var match = code.match(new RegExp("^" + key + (ops[key].arg ? "([;⁏]*)\\n" : "()") + "([^]*)$"));
+    if (match) {
+      code = match[2];
+      switch(ops[key].arg) {
+      case "unsigned":
+        return [ops[key].code, mkInt(match[1])];
+      case "signed":
+        var value = mkInt(match[1].slice(1));
+        if (match[1][0] == '⁏') value*= -1;
+        return [ops[key].code, value];
+      default:
+        return [ops[key].code];
+      }
+    }
+  }
+  error("Unknown command: " + require('util').inspect(code));
+};
+
+var execute = function () {
+  var op, arg, stdin = process.openStdin(),
+      pc = 0, stack = [], heap = {}, callStack = [];
+
+  require('tty').setRawMode(true);
+
+  function binOp(s) {
+    var a = stack.pop();
+    var b = stack.pop();
+    stack.push(eval("a"+s+"b"));
+    run();
+  }
+
+  function jump(c) {
+    for (var i=0; i<tokens.length; i++) {
+      if (tokens[i][0] == "label" && tokens[i][1] == c) {
+        pc = i;
+        break;
+      }
+    }
+    run();
+  }
+
+  function readchar(chunk, key) {
+    heap[stack.pop()] = chunk;
+    run();
+  }
+
+  function run() {
+    op = tokens[pc][0];
+    arg = tokens[pc][1];
+    pc += 1;
+
+    switch (op) {
+    case "push":
+      stack.push(arg);
+      run();
+      break;
+    case "label":
+      run();
+      break;
+    case "dup":
+      stack.push(stack[stack.length - 1]);
+      run();
+      break;
+    case "outnum":
+      process.stdout.write(stack.pop());
+      run();
+      break;
+    case "outchar":
+      process.stdout.write(new Buffer([stack.pop()]).toString());
+      run();
+      break;
+    case "add":
+      binOp("+");
+      break;
+    case "sub":
+      binOp("-");
+      break;
+    case "mul":
+      binOp("*");
+      break;
+    case "div":
+      binOp("/");
+      break;
+    case "mod":
+      binOp("%");
+      break;
+    case "jz":
+      if (stack.pop() == 0) jump(arg);
+      break;
+    case "jn":
+      if (stack.pop() < 0) jump(arg);
+      break;
+    case "jump":
+      jump(arg);
+      break;
+    case "discard":
+      stack.pop();
+      run();
+      break;
+    case "exit":
+      process.exit(0);
+      break;
+    case "store":
+      var value = stack.pop();
+      var addr = stack.pop();
+      heap[addr] = value;
+      run();
+      break;
+    case "call":
+      callStack.push(pc);
+      jump(arg);
+      break;
+    case "retreive":
+      stack.push(heap[stack.pop()]);
+      run();
+      break;
+    case "ret":
+      callStack.pop();
+      run();
+      break;
+    case "readchar":
+      stdin.on('keypress', function (chunk, key) {
+        heap[stack.pop()] = chunk;
+        run();
+      });
+      break;
+    case "readnum":
+      stdin.on('keypress', function (chunk, key) {
+        heap[stack.pop()] = parseInt(chunk);
+        run();
+      });
+      break;
+    case "swap":
+      var len = stack.length;
+      var tmp = stack[len-1];
+      stack[len-1] = stack[len-2];
+      stack[len-2] = tmp;
+      run();
+      break;
+    default:
+      error("Unknown opcode: " + op);
+      break;
+    }
+  }
+
+  if (tokens.length > 0) {
+    run();
+  } else {
+    process.exit(0);
+  }
+};
+
+if (process.argv.length == 3) {
+  code = require('fs').readFileSync(process.argv[2], 'utf8'), data = null;
+
+  do {
+    code = data || code;
+    data = code.replace(/[^;⁏ \n]/, '');
+  } while (data != code);
+
+  while (code != "" && code != "\n") {
+    tokens.push(tokenize());
+  }
+
+  execute();
+} else {
+  error("Usage: semicolon [FILE]");
+}
