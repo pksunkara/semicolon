@@ -75,7 +75,7 @@ All arithmetic operations start with `⁏` and followed by
 All heap storage access start with `;s` and followed by
 
 * `;` - Store the first item into address of the second item
-* `⁏` - Retreive and push the value in the address of the top item
+* `⁏` - Retrieve and push the value in the address of the top item
 
 ### Input/Output
 
