@@ -69,8 +69,6 @@
 <pre><code>Hello world!
 </code></pre>
 
-<p><em>NOTE: space will be denoted by <code>s</code> below because of some github markdown error</em></p>
-
 <h2>Instructions</h2>
 
 <p>The virtual machine on which programs run has a stack and a heap. The programmer is free to push arbitrary width integers onto the stack (only integers, currently there is no implementation of floating point or real numbers). The heap can also be accessed by the user as a permanent store of variables and data structures.</p>
@@ -106,10 +104,10 @@
 <li>
 <code>&#8271;&#8271;</code> - Divide the first item by the second and replace with result</li>
 <li>
-<code>ss</code> - Module the first item by the second and replace with result</li>
+<code>&nbsp;&nbsp;</code> - Module the first item by the second and replace with result</li>
 </ul><h3>Heap access</h3>
 
-<p>All heap storage access start with <code>;s</code> and followed by</p>
+<p>All heap storage access start with <code>;&nbsp;</code> and followed by</p>
 
 <ul>
 <li>
@@ -118,7 +116,7 @@
 <code>&#8271;</code> - Retreive and push the value in the address of the top item</li>
 </ul><h3>Input/Output</h3>
 
-<p>All Input/Output operations start with <code>&#8271;s</code> and followed by</p>
+<p>All Input/Output operations start with <code>&#8271;&nbsp;</code> and followed by</p>
 
 <ul>
 <li>
@@ -131,7 +129,7 @@
 <code>&#8271;&#8271;</code> - Read a number and place it in location given by the top item</li>
 </ul><h3>Flow control</h3>
 
-<p>All flow controls start with <code>s</code> and followed by</p>
+<p>All flow controls start with <code>&nbsp;</code> and followed by</p>
 
 <ul>
 <li>
@@ -139,15 +137,15 @@
 <li>
 <code>;&#8271;</code> - Call a subroutine (<em>param:</em> label)</li>
 <li>
-<code>;s</code> - End a subroutine and transfer control back to caller</li>
+<code>;&nbsp;</code> - End a subroutine and transfer control back to caller</li>
 <li>
-<code>&#8271;s</code> - Jump unconditionally to a label (<em>param:</em> label)</li>
+<code>&#8271;&nbsp;</code> - Jump unconditionally to a label (<em>param:</em> label)</li>
 <li>
 <code>&#8271;;</code> - Jump to a label if top item is zero (<em>param:</em> label)</li>
 <li>
 <code>&#8271;&#8271;</code> - Jump to a label if top item is negative (<em>param:</em> label)</li>
 <li>
-<code>s;</code> - Exit the program</li>
+<code>&nbsp;;</code> - Exit the program</li>
 </ul><h2>Contact</h2>
 
 <p>Pavan Kumar Sunkara (pavan.sss1991@gmail.com)</p>
