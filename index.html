@@ -49,19 +49,19 @@
 
 <p>The following program consists semicolons, reversed semicolons, spaces and newlines which when ran</p>
 
-<pre><code>;;;;⁏;;⁏;;;
-⁏ ;;;;;;⁏⁏;;⁏;⁏
-⁏ ;;;;;;⁏⁏;⁏⁏;;
-;;⁏⁏ ;;⁏ ;;;;;;⁏⁏;⁏⁏⁏⁏
-⁏ ;;;;;;⁏;;;;;
-⁏ ;;;;;;⁏⁏⁏;⁏⁏⁏
-⁏ ;;;;;;⁏⁏;⁏⁏⁏⁏
-;;⁏⁏ ;;;;;;⁏⁏
-⁏;;⁏ ;;;;;;⁏⁏;⁏⁏;;
-⁏ ;;;;;;⁏⁏;;⁏;;
-⁏ ;;;;;;⁏;;;;⁏
-⁏ ;;;;;;;⁏;⁏;
-⁏ ;;  ;
+<pre><code>;;;;&#8271;;;&#8271;;;;
+&#8271; ;;;;;;&#8271;&#8271;;;&#8271;;&#8271;
+&#8271; ;;;;;;&#8271;&#8271;;&#8271;&#8271;;;
+;;&#8271;&#8271; ;;&#8271; ;;;;;;&#8271;&#8271;;&#8271;&#8271;&#8271;&#8271;
+&#8271; ;;;;;;&#8271;;;;;;
+&#8271; ;;;;;;&#8271;&#8271;&#8271;;&#8271;&#8271;&#8271;
+&#8271; ;;;;;;&#8271;&#8271;;&#8271;&#8271;&#8271;&#8271;
+;;&#8271;&#8271; ;;;;;;&#8271;&#8271;
+&#8271;;;&#8271; ;;;;;;&#8271;&#8271;;&#8271;&#8271;;;
+&#8271; ;;;;;;&#8271;&#8271;;;&#8271;;;
+&#8271; ;;;;;;&#8271;;;;;&#8271;
+&#8271; ;;;;;;;&#8271;;&#8271;;
+&#8271; ;;  ;
 </code></pre>
 
 <p>gives the following output</p>
@@ -75,9 +75,9 @@
 
 <p>The virtual machine on which programs run has a stack and a heap. The programmer is free to push arbitrary width integers onto the stack (only integers, currently there is no implementation of floating point or real numbers). The heap can also be accessed by the user as a permanent store of variables and data structures.</p>
 
-<p>Many commands require numbers or labels as parameters. Numbers can be any number of bits wide, and are simply represented as a series of <code>;</code> and <code>⁏</code>, terminated by a <code>\n</code>. <code>;</code> represents the binary digit 0, <code>⁏</code> represents 1. The sign of a number is given by its first character, <code>;</code> for positive and <code>⁏</code> for negative. Note that this is not twos complement, it just indicates a sign.</p>
+<p>Many commands require numbers or labels as parameters. Numbers can be any number of bits wide, and are simply represented as a series of <code>;</code> and <code>&#8271;</code>, terminated by a <code>\n</code>. <code>;</code> represents the binary digit 0, <code>&#8271;</code> represents 1. The sign of a number is given by its first character, <code>;</code> for positive and <code>&#8271;</code> for negative. Note that this is not twos complement, it just indicates a sign.</p>
 
-<p>Labels are simply <code>\n</code> terminated lists of <code>;</code> and <code>⁏</code>. There is only one global namespace so all labels must be unique.</p>
+<p>Labels are simply <code>\n</code> terminated lists of <code>;</code> and <code>&#8271;</code>. There is only one global namespace so all labels must be unique.</p>
 
 <h3>Stack manipulation</h3>
 
@@ -87,24 +87,24 @@
 <li>
 <code>;;</code> - Push a signed integer into the stack (<em>param:</em> number)</li>
 <li>
-<code>;⁏</code> - Duplicate the top item of the stack</li>
+<code>;&#8271;</code> - Duplicate the top item of the stack</li>
 <li>
-<code>⁏;</code> - Swap the top two items of the stack</li>
+<code>&#8271;;</code> - Swap the top two items of the stack</li>
 <li>
-<code>⁏⁏</code> - Discard the top item of the stack</li>
+<code>&#8271;&#8271;</code> - Discard the top item of the stack</li>
 </ul><h3>Arithmetic operation</h3>
 
-<p>All arithmetic operations start with <code>⁏</code> and followed by</p>
+<p>All arithmetic operations start with <code>&#8271;</code> and followed by</p>
 
 <ul>
 <li>
 <code>;;</code> - Add the top two items and replace them with result</li>
 <li>
-<code>;⁏</code> - Subtract the second item from first and replace with result</li>
+<code>;&#8271;</code> - Subtract the second item from first and replace with result</li>
 <li>
-<code>⁏;</code> - Multiply top two items and replace them with result</li>
+<code>&#8271;;</code> - Multiply top two items and replace them with result</li>
 <li>
-<code>⁏⁏</code> - Divide the first item by the second and replace with result</li>
+<code>&#8271;&#8271;</code> - Divide the first item by the second and replace with result</li>
 <li>
 <code>ss</code> - Module the first item by the second and replace with result</li>
 </ul><h3>Heap access</h3>
@@ -115,20 +115,20 @@
 <li>
 <code>;</code> - Store the first item into address of the second item</li>
 <li>
-<code>⁏</code> - Retreive and push the value in the address of the top item</li>
+<code>&#8271;</code> - Retreive and push the value in the address of the top item</li>
 </ul><h3>Input/Output</h3>
 
-<p>All Input/Output operations start with <code>⁏s</code> and followed by</p>
+<p>All Input/Output operations start with <code>&#8271;s</code> and followed by</p>
 
 <ul>
 <li>
 <code>;;</code> - Output the character at the top of the stack</li>
 <li>
-<code>;⁏</code> - Output the number at the top of the stack</li>
+<code>;&#8271;</code> - Output the number at the top of the stack</li>
 <li>
-<code>⁏;</code> - Read a character and place it in location given by the top item</li>
+<code>&#8271;;</code> - Read a character and place it in location given by the top item</li>
 <li>
-<code>⁏⁏</code> - Read a number and place it in location given by the top item</li>
+<code>&#8271;&#8271;</code> - Read a number and place it in location given by the top item</li>
 </ul><h3>Flow control</h3>
 
 <p>All flow controls start with <code>s</code> and followed by</p>
@@ -137,15 +137,15 @@
 <li>
 <code>;;</code> - Mark a location in the program (<em>param:</em> label)</li>
 <li>
-<code>;⁏</code> - Call a subroutine (<em>param:</em> label)</li>
+<code>;&#8271;</code> - Call a subroutine (<em>param:</em> label)</li>
 <li>
 <code>;s</code> - End a subroutine and transfer control back to caller</li>
 <li>
-<code>⁏s</code> - Jump unconditionally to a label (<em>param:</em> label)</li>
+<code>&#8271;s</code> - Jump unconditionally to a label (<em>param:</em> label)</li>
 <li>
-<code>⁏;</code> - Jump to a label if top item is zero (<em>param:</em> label)</li>
+<code>&#8271;;</code> - Jump to a label if top item is zero (<em>param:</em> label)</li>
 <li>
-<code>⁏⁏</code> - Jump to a label if top item is negative (<em>param:</em> label)</li>
+<code>&#8271;&#8271;</code> - Jump to a label if top item is negative (<em>param:</em> label)</li>
 <li>
 <code>s;</code> - Exit the program</li>
 </ul><h2>Contact</h2>
