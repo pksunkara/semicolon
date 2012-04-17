@@ -48,7 +48,7 @@ var tokenize = function () {
   var keys = Object.keys(ops);
   for (var i=0; i<keys.length; i++) {
     var key = keys[i];
-    var match = code.match(new RegExp("^" + key + (ops[key].arg ? "([;⁏]*)\\n" : "()") + "([^]*)$"));
+    var match = code.match(new RegExp("^" + key + (ops[key].arg ? "([;⁏]*);\\n" : "()") + "([^]*)$"));
     if (match) {
       code = match[2];
       switch(ops[key].arg) {
@@ -208,7 +208,7 @@ if (process.argv.length == 3) {
     data = code.replace(/[^;⁏ \n]/, '');
   } while (data != code);
 
-  while (code != "" && code != "\n") {
+  while (code != "" && code != ";\n") {
     tokens.push(tokenize());
   }
 
