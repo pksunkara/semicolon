@@ -90,9 +90,13 @@ var execute = function () {
   }
 
   function run() {
-    op = tokens[pc][0];
-    arg = tokens[pc][1];
-    pc += 1;
+    if (tokens[pc]) {
+      op = tokens[pc][0];
+      arg = tokens[pc][1];
+      pc += 1;
+    } else {
+      op = "exit";
+    }
 
     switch (op) {
     case "push":
