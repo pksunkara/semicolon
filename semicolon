@@ -89,11 +89,6 @@ var execute = function () {
     run();
   }
 
-  function readchar(chunk, key) {
-    heap[stack.pop()] = chunk;
-    run();
-  }
-
   function run() {
     op = tokens[pc][0];
     arg = tokens[pc][1];
