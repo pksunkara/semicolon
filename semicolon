@@ -111,7 +111,7 @@ var execute = function () {
       run();
       break;
     case "outnum":
-      process.stdout.write(stack.pop());
+      process.stdout.write(String(stack.pop()));
       run();
       break;
     case "outchar":

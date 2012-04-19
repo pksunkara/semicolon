@@ -3,15 +3,7 @@ An esoteric language made up of only semicolons.
 
 **You can't escape the semicolon monster!**
 
-## Installation
-
-Install semicolon globally from npm registry by typing the following command
-
-```
-npm install semicolon -g
-```
-
-## Usage
+## Installation & Usage
 
 Read [homepage](http://pksunkara.github.com/semicolon) for usage and instructions
 
