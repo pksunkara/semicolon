@@ -70,13 +70,12 @@ var execute = function () {
   var op, arg, stdin = process.openStdin(),
       pc = 0, stack = [], heap = {}, callStack = [];
 
-  require('tty').setRawMode(true);
+  process.stdin.setRawMode(true);
 
   function binOp(s) {
     var a = stack.pop();
     var b = stack.pop();
     stack.push(eval("a"+s+"b"));
-    run();
   }
 
   function jump(c) {
@@ -86,117 +85,112 @@ var execute = function () {
         break;
       }
     }
-    run();
   }
 
   function run() {
-    if (tokens[pc]) {
-      op = tokens[pc][0];
-      arg = tokens[pc][1];
-      pc += 1;
-    } else {
-      op = "exit";
-    }
+    var running = true;
+    while (running) {
+      if (tokens[pc]) {
+        op = tokens[pc][0];
+        arg = tokens[pc][1];
+        pc += 1;
+      } else {
+        op = "exit";
+      }
 
-    switch (op) {
-    case "push":
-      stack.push(arg);
-      run();
-      break;
-    case "label":
-      run();
-      break;
-    case "dup":
-      stack.push(stack[stack.length - 1]);
-      run();
-      break;
-    case "outnum":
-      process.stdout.write(String(stack.pop()));
-      run();
-      break;
-    case "outchar":
-      process.stdout.write(new Buffer([stack.pop()]).toString());
-      run();
-      break;
-    case "add":
-      binOp("+");
-      break;
-    case "sub":
-      binOp("-");
-      break;
-    case "mul":
-      binOp("*");
-      break;
-    case "div":
-      binOp("/");
-      break;
-    case "mod":
-      binOp("%");
-      break;
-    case "jz":
-      if (stack.pop() == 0) jump(arg);
-      break;
-    case "jn":
-      if (stack.pop() < 0) jump(arg);
-      break;
-    case "jump":
-      jump(arg);
-      break;
-    case "discard":
-      stack.pop();
-      run();
-      break;
-    case "exit":
-      process.exit(0);
-      break;
-    case "store":
-      var value = stack.pop();
-      var addr = stack.pop();
-      heap[addr] = value;
-      run();
-      break;
-    case "call":
-      callStack.push(pc);
-      jump(arg);
-      break;
-    case "retreive":
-      stack.push(heap[stack.pop()]);
-      run();
-      break;
-    case "ret":
-      callStack.pop();
-      run();
-      break;
-    case "readchar":
-      stdin.on('keypress', function (chunk, key) {
-        heap[stack.pop()] = chunk;
-        run();
-      });
-      break;
-    case "readnum":
-      stdin.on('keypress', function (chunk, key) {
-        heap[stack.pop()] = parseInt(chunk);
-        run();
-      });
-      break;
-    case "swap":
-      var len = stack.length;
-      var tmp = stack[len-1];
-      stack[len-1] = stack[len-2];
-      stack[len-2] = tmp;
-      run();
-      break;
-    default:
-      error("Unknown opcode: " + op);
-      break;
+      switch (op) {
+      case "push":
+        stack.push(arg);
+        break;
+      case "label":
+        break;
+      case "dup":
+        stack.push(stack[stack.length - 1]);
+        break;
+      case "outnum":
+        process.stdout.write(String(stack.pop()));
+        break;
+      case "outchar":
+        process.stdout.write(new Buffer([stack.pop()]).toString());
+        break;
+      case "add":
+        binOp("+");
+        break;
+      case "sub":
+        binOp("-");
+        break;
+      case "mul":
+        binOp("*");
+        break;
+      case "div":
+        binOp("/");
+        break;
+      case "mod":
+        binOp("%");
+        break;
+      case "jz":
+        if (stack.pop() == 0) jump(arg);
+        break;
+      case "jn":
+        if (stack.pop() < 0) jump(arg);
+        break;
+      case "jump":
+        jump(arg);
+        break;
+      case "discard":
+        stack.pop();
+        break;
+      case "exit":
+        running = false;
+        break;
+      case "store":
+        var value = stack.pop();
+        var addr = stack.pop();
+        heap[addr] = value;
+        break;
+      case "call":
+        callStack.push(pc);
+        jump(arg);
+        break;
+      case "retreive":
+        stack.push(heap[stack.pop()]);
+        break;
+      case "ret":
+        callStack.pop();
+        break;
+      case "readchar":
+        var charRead = false;
+        stdin.on('keypress', function (chunk, key) {
+          heap[stack.pop()] = chunk;
+          charRead = true;
+        });
+        while (!charRead) { };
+        break;
+      case "readnum":
+        var numRead = false;
+        stdin.on('keypress', function (chunk, key) {
+          heap[stack.pop()] = parseInt(chunk);
+          numRead = true;
+        });
+        while (!numRead) { };
+        break;
+      case "swap":
+        var len = stack.length;
+        var tmp = stack[len-1];
+        stack[len-1] = stack[len-2];
+        stack[len-2] = tmp;
+        break;
+      default:
+        error("Unknown opcode: " + op);
+        break;
+      }
     }
   }
 
   if (tokens.length > 0) {
     run();
-  } else {
-    process.exit(0);
-  }
+  } 
+  process.exit(0);
 };
 
 if (process.argv.length == 3) {
