@@ -198,7 +198,6 @@ var execute = function () {
 
 if (process.argv.length == 3) {
   code = require('fs').readFileSync(process.argv[2], 'utf8');
-  code = code.replace(/^;  [^\n]*\n/gm, '');
   code = code.replace(/[^;⁏ \n]/g, '');
 
   while (code != "" && code != "\n") {

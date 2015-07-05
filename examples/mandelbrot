@@ -1,5 +1,5 @@
-;      A mandelbrot set fractal viewer in brainf*** written by Erik Bosman
-;           Converted to semicolon by Robert de Bath
+ ;;;___A_mandelbrot_set_fractal_viewer_in_brainf***_written_by_Erik_Bosman
+ ;;;________Converted_to_semicolon_by_Robert_de_Bath
 ;;;;⁏;;;;;;⁏;
 ;;;;⁏
 ⁏;;;;⁏;;;;⁏⁏;⁏;
