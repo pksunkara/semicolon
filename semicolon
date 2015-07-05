@@ -152,8 +152,8 @@ var execute = function () {
         callStack.push(pc);
         jump(arg);
         break;
-      case "retreive":
-        stack.push(heap[stack.pop()]);
+      case "retrieve":
+        stack.push(heap[stack.pop()] || 0);
         break;
       case "ret":
         callStack.pop();
