@@ -5,7 +5,7 @@ An esoteric language made up of only semicolons.
 
 ## Installation & Usage
 
-Read [homepage](http://pksunkara.github.com/semicolon) for usage and instructions
+Read [homepage](http://pksunkara.github.io/semicolon) for usage and instructions
 
 If you like this project, please watch this and [follow](http://github.com/users/follow?target=pksunkara) me.
 
